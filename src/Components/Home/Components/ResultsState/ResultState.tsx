@@ -6,6 +6,9 @@ import Sync from "@assets/directory_sync.svg";
 import Delete from "@assets/delete.svg";
 import ArrowBack from "@assets/arrow_back.svg";
 import ArrowForward from "@assets/arrow_forward.svg";
+import ThumbsUpFill from "@assets/thumb_up_fill.svg";
+import ThumbsDownFill from "@assets/thumb_down_fill.svg";
+
 
 const ResultState = ({
   response,
@@ -20,6 +23,14 @@ const ResultState = ({
   setText,
   text,
 }:OptionsStateInterface) => {
+
+  const reponseReactionHandler=(params:string)=>{
+    const responseClone=JSON.parse(JSON.stringify(response))
+    responseClone[responseIndex].isLiked=responseClone[responseIndex].isLiked === params ? null :params
+    setResponse(responseClone)
+  }
+
+
   return (
     <div
       className={`w-full bg-[linear-gradient(to_right_bottom,white,#F4ECF7,#FAD9D7)] rounded-${loading ? "full" : "lg"}	border border-grey-50  py-2 px-4`}
@@ -33,9 +44,9 @@ const ResultState = ({
 
         <div className="flex items-center justify-between mt-4">
           <div className="flex ">
-            <img className="mr-2 h-5 w-5" src={ThumbsUp} />
+            <img onClick={()=>reponseReactionHandler('like')} className="mr-2 h-5 w-5 cursor-pointer" src={response[responseIndex]?.isLiked === 'like'?ThumbsUpFill:ThumbsUp} />
             <div className="border-l-2 border-primary-red-100"></div>
-            <img className="ml-2 h-5 w-5" src={ThumbsDown} />
+            <img onClick={()=>reponseReactionHandler('unlike')} className="ml-2 h-5 w-5 cursor-pointer" src={response[responseIndex]?.isLiked === 'unlike'?ThumbsDownFill:ThumbsDown} />
           </div>
 
           <div className="flex items-center justify-between">
